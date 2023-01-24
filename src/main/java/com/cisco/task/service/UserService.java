@@ -15,9 +15,13 @@ public class UserService {
 
     private UserRepository userRepository;
 
-    public User getUserById(Integer id) {
+    public User getById(Integer id) {
         Optional<User> user = userRepository.findById(id);
         log.info("For userId={} found user={}", id, user.get());
         return user.orElse(null);
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
     }
 }

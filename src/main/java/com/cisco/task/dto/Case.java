@@ -1,6 +1,7 @@
 package com.cisco.task.dto;
 
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,9 +16,10 @@ public class Case {
     private String description;
     private Integer severity;
     private Status status;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private User user;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "caseId")
     private List<Note> notes;
 
     public enum Status {

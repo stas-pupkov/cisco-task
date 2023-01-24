@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class CaseResource {
+public class CaseController {
 
     private CaseService caseService;
     private UserService userService;
@@ -26,14 +26,14 @@ public class CaseResource {
 
     @GetMapping("/cases/user/{userId}")
     List<Case> getOpenCases(@PathVariable Integer userId) {
-        User user = userService.getUserById(userId);
+        User user = userService.getById(userId);
         List<Case> cases = caseService.getCasesByUser(user);
         return cases;
     }
 
     @GetMapping("/cases/user/{userId}/status/{status}")
     List<Case> getOpenCases(@PathVariable Integer userId, @PathVariable Case.Status status) {
-        User user = userService.getUserById(userId);
+        User user = userService.getById(userId);
         List<Case> cases = caseService.getCasesByUserAndStatus(user, status);
         return cases;
     }
