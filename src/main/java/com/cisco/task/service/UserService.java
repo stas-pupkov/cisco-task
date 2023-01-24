@@ -17,7 +17,7 @@ public class UserService {
 
     public User getUserById(Integer id) {
         Optional<User> user = userRepository.findById(id);
-        log.info("For userId={} found user={}", id, user.get());
+        log.info("For userId={} found user={}", id, user.orElse(null));
         return user.orElse(null);
     }
 }

@@ -51,6 +51,12 @@ public class CaseResource {
     @PostMapping(value = "/case/{caseId}/addNote", consumes = "text/plain")
     Note addNote(@PathVariable Integer caseId, @RequestBody String detail) {
         Note newNote = new Note(caseId, detail);
-        return noteService.saveNote(newNote);
+        Note note = noteService.saveNote(newNote);
+        Case caseById = caseService.getCaseById(caseId);
+        List<Note> notes = caseById.getNotes();
+        notes.add(note);
+        caseById.setNotes(notes);
+        caseService.saveCase(caseById);
+        return note;
     }
 }
