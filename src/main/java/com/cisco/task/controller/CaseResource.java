@@ -21,42 +21,37 @@ public class CaseResource {
 
     @GetMapping("/cases/status/{status}")
     List<Case> getCasesWithStatus(@PathVariable Case.Status status) {
-        return caseService.getCasesByStatus(status);
+        return caseService.getByStatus(status);
     }
 
     @GetMapping("/cases/user/{userId}")
     List<Case> getOpenCases(@PathVariable Integer userId) {
-        User user = userService.getUserById(userId);
-        List<Case> cases = caseService.getCasesByUser(user);
+        User user = userService.getById(userId);
+        List<Case> cases = caseService.getByUser(user);
         return cases;
     }
 
     @GetMapping("/cases/user/{userId}/status/{status}")
     List<Case> getOpenCases(@PathVariable Integer userId, @PathVariable Case.Status status) {
-        User user = userService.getUserById(userId);
-        List<Case> cases = caseService.getCasesByUserAndStatus(user, status);
+        User user = userService.getById(userId);
+        List<Case> cases = caseService.getByUserAndStatus(user, status);
         return cases;
     }
 
     @GetMapping("/case/{caseId}")
     Case getCase(@PathVariable Integer caseId) {
-        return caseService.getCaseById(caseId);
+        return caseService.getById(caseId);
     }
 
     @PostMapping(value = "/case/create", consumes = "application/json")
     Case createCase(@RequestBody Case toCreate) {
-        return caseService.saveCase(toCreate);
+        return caseService.save(toCreate);
     }
 
     @PostMapping(value = "/case/{caseId}/addNote", consumes = "text/plain")
     Note addNote(@PathVariable Integer caseId, @RequestBody String detail) {
         Note newNote = new Note(caseId, detail);
-        Note note = noteService.saveNote(newNote);
-        Case caseById = caseService.getCaseById(caseId);
-        List<Note> notes = caseById.getNotes();
-        notes.add(note);
-        caseById.setNotes(notes);
-        caseService.saveCase(caseById);
+        Note note = noteService.save(newNote);
         return note;
     }
 }

@@ -13,7 +13,7 @@ public class NoteService {
 
     private NoteRepository noteRepository;
 
-    public Note saveNote(Note toCreate) {
+    public Note save(Note toCreate) {
         Note savedNote = noteRepository.save(toCreate);
         log.info("Note with noteId={} saved", savedNote.getNoteId());
         return savedNote;
