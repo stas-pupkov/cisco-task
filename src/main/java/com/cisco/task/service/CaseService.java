@@ -1,17 +1,13 @@
 package com.cisco.task.service;
 
 import com.cisco.task.dto.Case;
-import com.cisco.task.dto.Note;
 import com.cisco.task.dto.User;
 import com.cisco.task.repository.CaseRepository;
-import com.cisco.task.repository.NoteRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -19,7 +15,7 @@ import java.util.Optional;
 public class CaseService {
 
     private CaseRepository caseRepository;
-    private NoteRepository noteRepository;
+    private UserService userService;
 
     public Case getCaseById(Integer caseId) {
         Optional<Case> optionalCase = caseRepository.findById(caseId);
@@ -46,6 +42,7 @@ public class CaseService {
     }
 
     public Case saveCase(Case toCreate) {
+        toCreate.setUser(userService.save(toCreate.getUser()));
         Case savedCase = caseRepository.save(toCreate);
         log.info("Case with caseId={} saved", savedCase.getCaseId());
         return savedCase;
